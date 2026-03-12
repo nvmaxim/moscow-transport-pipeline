@@ -4,10 +4,17 @@ import duckdb
 con = duckdb.connect("data/transport.db")
 
 # Создаем таблицу прямо из CSV-файла
-# con.execute("CREATE TABLE stops AS SELECT * FROM read_csv_auto('data/gtfs/stops.txt')")
 
-# Делаем быстрый запрос
-# print(con.execute("SELECT stop_name FROM stops LIMIT 5").fetchall())
+tables = ["agency", "calendar", "routes", "stop_times", "stops", "trips"]
+for t in tables:
+    con.execute(
+        f"CREATE OR REPLACE TABLE {t} AS SELECT * FROM read_csv_auto('data/gtfs/{t}.txt')"
+    )
 
-result = con.execute("SELECT DISTINCT COUNT(*) FROM stops").fetchone()
-print(f"Всего остановок: {result[0]}")
+# Показать все таблицы в базе
+print(con.execute("SHOW TABLES").fetchall())
+
+# Быстрая проверка каждой таблицы
+for t in tables:
+    count = con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+    print(f"{t}: {count} строк")
