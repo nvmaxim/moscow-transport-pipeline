@@ -18,8 +18,10 @@ result = con.execute(
 """
 ).fetchall()
 
-# for row in result:
-#     print(f"{row[0]}: {row[1]:,}")
+# print(result)
+
+for row in result:
+    print(f"{row[0]}: {row[1]:,}")
 
 
 # . Самые загруженные маршруты
@@ -55,8 +57,8 @@ result = con.execute(
 """
 ).fetchall()
 
-for row in result:
-    print(f"Час {row[0]:02d}: {row[1]:,d} прибытий")
+# for row in result:
+#     print(f"Час {row[0]:02d}: {row[1]:,d} прибытий")
 
 # 3. Количество маршрутов на одной остановке
 
